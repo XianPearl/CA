@@ -1,0 +1,39 @@
+//Theory
+A tri-state buffer is similar to a buffer, but it adds an additional "enable" input that controls whether the primary input is passed to its output or not. If the
+"enable" inputs signal is true, the tri-state buffer behaves like a normal buffer. If the "enable" input signal is false, the tri-state buffer passes a high 
+impedance (or hi-Z) signal, which effectively disconnects its output from the circuit.
+
+Tri-state buffers are often connected to a bus which allows multiple signals to travel along the same connection.
+
+A Tri-state Buffer can be thought of as an input controlled switch with an output that can be electronically turned “ON” or “OFF” by means of an external “Control”
+or “Enable” ( EN ) signal input. This control signal can be either a logic “0” or a logic “1” type signal resulting in the Tri-state Buffer being in one state 
+allowing its output to operate normally producing the required output or in another state were its output is blocked or disconnected.
+
+//Design
+module tristate(
+  input i,
+  input cnt,
+  output z
+);
+  assign z = (cnt & i) | (~cnt & 'bz);
+endmodule
+
+//Testbench
+module tristate_tb;
+  reg i, cnt;
+  wire z;
+  tristate uut (.i(i), .cnt(cnt), .z(z));
+  initial
+    begin
+      i = 0; cnt = 0; #10;
+      i = 0; cnt = 1; #10;
+      i = 1; cnt = 0; #10;
+      i = 1; cnt = 1; #10;
+    end
+initial 
+  begin
+    $dumpfile ("dump.vcd");
+    $dumpvars (0, tristate_tb);
+  end
+endmodule
+      
