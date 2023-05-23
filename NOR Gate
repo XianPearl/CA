@@ -1,0 +1,31 @@
+//Design
+module nor2(
+  input A,
+  input B,
+  output C
+);
+  assign C = !(A | B);
+endmodule
+
+//Testbench
+module nor2_tb;
+  reg A,B;
+  wire C;
+  nor2 uut (.A(A), .B(B), .C(C));
+  initial
+    begin
+      A = 0; B = 0; #100;
+      A = 0; B = 1; #100;
+      A = 1; B = 0; #100;
+      A = 1; B = 1; #100;
+    end
+initial 
+  begin
+    $dumpfile ("dump.vcd");
+    $dumpvars (0, nor2_tb);
+  end
+endmodule
+      
+//Theory
+A NOR gate (“not OR gate”) is a logic gate that produces a high output (1) only if all its inputs are false, and low output (0) otherwise. Hence the NOR gate is the inverse of an OR gate, and its circuit is 
+produced by connecting an OR gate to a NOT gate. Just like an OR gate, a NOR gate may have any number of input probes but only one output probe.
