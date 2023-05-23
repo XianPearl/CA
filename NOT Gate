@@ -1,0 +1,29 @@
+//Design
+module not2(
+  input A,
+  output B
+);
+  assign B = ~A;
+endmodule
+
+//Testbench
+module not2_tb;
+  reg A;
+  wire B;
+  not2 uut (.A(A), .B(B));
+  initial
+    begin
+      A = 0; #100;
+      A = 1; #100;
+    end
+initial 
+  begin
+    $dumpfile ("dump.vcd");
+    $dumpvars (0, not2_tb);
+  end
+endmodule
+      
+//Theory
+A NOT gate is a logic gate that inverts the digital input signal. For this reason, a NOT gate is sometimes is referred to as an inverter (not to be confused with a
+power inverter). A NOT gate always has high (logical 1) output when its input is low (logical 0). Conversely, a logical NOT gate always has low (logical 0) output
+when the input is high (logical 1). 
