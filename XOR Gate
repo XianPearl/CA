@@ -1,0 +1,42 @@
+//Design
+module xor2(
+  input A,
+  input B,
+  output C
+);
+  assign C = A ^ B;
+endmodule
+
+//Testbench
+module xor2_tb;
+  reg A,B;
+  wire C;
+  xor2 uut (.A(A), .B(B), .C(C));
+  initial
+    begin
+      A = 0; B = 0; #100;
+      A = 0; B = 1; #100;
+      A = 1; B = 0; #100;
+      A = 1; B = 1; #100;
+    end
+initial 
+  begin
+    $dumpfile ("dump.vcd");
+    $dumpvars (0, xor2_tb);
+  end
+endmodule
+      
+      
+//Theory
+An XOR gate (also known as an EOR, or EXOR gate) – pronounced as Exclusive OR gate – is a digital logic gate that gives a true (i.e. a HIGH or 1) output when the
+number of true inputs is odd. An XOR gate implements an exclusive OR, i.e., a true output result occurs if one – and only one – of the gate’s inputs is true. If
+both inputs are false (i.e. LOW or 0) or both inputs are true, the output is false.
+
+XOR represents the inequality function, i.e. the output is true if the inputs are not alike; otherwise, the output is false. A common way to remember the XOR is
+“must have one or the other, but not both”.
+
+The logic gate performs this modulo sum operation without including carry is known as XOR gate. An XOR gate is normally two inputs logic gate where the output is
+only logical 1 when only one input is logical 1. When both inputs are equal, either are 1 or both are 0, the output will be logical 0.
+
+This is the reason an XOR gate is also called an anti-coincidence gate or inequality detector. This gate is called XOR or exclusive OR gate because its output is
+only 1 when its input is exclusively 1.
