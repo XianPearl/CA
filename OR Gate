@@ -1,0 +1,31 @@
+//Design
+module or2(
+  input A,
+  input B,
+  output C
+);
+  assign C = A | B;
+endmodule
+
+//Testbench
+module or2_tb;
+  reg A,B;
+  wire C;
+  or2 uut (.A(A), .B(B), .C(C));
+  initial
+    begin
+      A = 0; B = 0; #100;
+      A = 0; B = 1; #100;
+      A = 1; B = 0; #100;
+      A = 1; B = 1; #100;
+    end
+initial 
+  begin
+    $dumpfile ("dump.vcd");
+    $dumpvars (0, or2_tb);
+  end
+endmodule
+      
+//Theory
+The OR gate gets its name from the fact that it behaves after the fashion of the logical inclusive "or." The output is "true" if either or both of the inputs are
+"true." If both inputs are "false," then the output is "false." In other words, for the output to be 1, at least input one OR two must be 1.
