@@ -1,0 +1,39 @@
+//Design
+module xnor2(
+  input A,
+  input B,
+  output C
+);
+  assign C = ~(A ^ B);
+endmodule
+
+//Testmodule
+module xnor2_tb;
+  reg A,B;
+  wire C;
+  xnor2 uut (.A(A), .B(B), .C(C));
+  initial
+    begin
+      A = 0; B = 0; #100;
+      A = 0; B = 1; #100;
+      A = 1; B = 0; #100;
+      A = 1; B = 1; #100;
+    end
+initial 
+  begin
+    $dumpfile ("dump.vcd");
+    $dumpvars (0, xnor2_tb);
+  end
+endmodule
+      
+      
+//Theory
+The XNOR gate (also known as a XORN’T, ENOR, EXNOR or NXOR) – and pronounced as Exclusive NOR – is a digital logic gate whose function is the logical complement of
+the exclusive OR gate (XOR gate). Logically, an XNOR gate is a NOT gate followed by an XOR gate.
+
+The XOR operation of inputs A and B is A ⊕ B; therefore, XNOR operation those inputs will be (A + B) ̅. That means the output of the XOR gate is inverted in the 
+XNOR gate.
+
+In the XOR gate operation, the output is only 1 when only one input is 1. The output is logical 0 when both inputs are the same, meaning they are either 1 or 0.
+But in the XNOR gate, the inverse is true. Hence the output is 0 when only one input is 0, and the output is 1 when both inputs are the same (i.e. either two 0’s
+or two 1’s).
