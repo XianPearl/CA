@@ -1,0 +1,54 @@
+//Design
+module majorityCir (input[4:0]sw, output led);
+  assign led = (sw[0] & sw[1] & sw[2]) | (sw[0] & sw[1] & sw[3]) | (sw[0] & sw[1] & sw[4]) | (sw[0] & sw[2] & sw[3]) | (sw[0] & sw[2] & sw[4]) | 
+  (sw[0] & sw[3] & sw[4]) | (sw[1] & sw[2] & sw[3]) | (sw[1] & sw[2] & sw[4]) | (sw[1] & sw[3] & sw[4]) | (sw[2] & sw[3] & sw[4]);
+endmodule
+
+//Testbench
+module majorityCir_tb;
+  reg [4:0]sw = 0;
+  wire led;
+  integer i;
+  majorityCir uut (.sw(sw), .led(led));
+  initial
+    begin
+      for (i = 0; i < 31; i = i+1) begin
+        #10;
+        sw = sw + 1'b1;
+      end
+    end
+  initial
+    begin
+      $dumpfile ("dump.vcd");
+      $dumpvars (0, majorityCir_tb);
+    end
+endmodule
+
+//Theory
+A majority circuit is a digital logic circuit that determines the majority of input bits and produces a corresponding output. It is commonly used in voting systems
+, error detection, and multiplexers. Here's a theory on how a majority circuit works:
+
+1. Inputs: A majority circuit takes multiple input bits, typically three or more. Let's assume we have n input bits: A[0], A[1], A[2], ..., A[n-1]. Each input bit
+can be either 0 or 1.
+
+2. Logic Operation: The majority circuit performs a logic operation to determine the majority of the input bits. The most common logic operation used in majority
+circuits is the majority function, denoted as "M".
+
+3. Majority Function: The majority function takes a set of bits and returns 1 if the majority of the bits are 1, otherwise it returns 0. In other words, if more 
+than half of the input bits are 1, the majority function outputs 1; otherwise, it outputs 0.
+
+4. Implementation: Majority circuits can be implemented using various logic gates, such as AND gates, OR gates, and NOT gates. The specific implementation depends
+on the number of input bits and the available logic gates.
+(i) 3-input Majority Circuit: The simplest majority circuit is the 3-input majority circuit. It takes three input bits (A, B, C) and determines the majority using
+an AND gate, an OR gate, and a NOT gate. The majority function M is expressed as:
+M = (A AND B) OR (A AND C) OR (B AND C)
+(ii) N-input Majority Circuit: For circuits with more than three input bits, the majority function can be extended by adding more AND and OR gates. The structure 
+becomes more complex as the number of input bits increases.
+
+5. Output: The output of a majority circuit is the result of the majority function. It indicates whether the majority of the input bits are 1 or 0.
+
+6. Applications: Majority circuits are commonly used in various applications, such as voting systems where multiple inputs are considered, error detection 
+mechanisms to identify faulty bits, and multiplexers to select among multiple input signals based on majority voting.
+
+Majority circuits provide a way to determine the majority opinion or state based on multiple input bits. By utilizing logical operations and appropriate gate 
+arrangements, these circuits enable efficient decision-making processes in digital systems.
