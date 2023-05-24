@@ -1,0 +1,63 @@
+//Design
+module dec(a, b, c, out);
+  input a, b, c;
+  output [7:0]out;
+  assign out[0] = (~a & ~b & ~c);
+  assign out[1] = (~a & ~b & c);
+  assign out[2] = (~a & b & ~c);
+  assign out[3] = (~a & b & c);
+  assign out[4] = (a & ~b & ~c);
+  assign out[5] = (a & ~b & c);
+  assign out[6] = (a & b & ~c);
+  assign out[7] = (a & b & c);
+endmodule
+
+//Testbench
+module dec_tb;
+  reg a, b, c;
+  wire [7:0]out;
+  dec DUT (a, b, c, out);
+  initial
+    begin
+      $monitor ($time, "a = %b, b = %b, c = %b, out = %b", a, b, c, out);
+      a = 0; b = 0; c = 0; #100;
+      a = 0; b = 0; c = 1; #100;
+      a = 0; b = 1; c = 0; #100;
+      a = 1; b = 1; c = 1; #100;
+      $finish
+    end
+  initial
+    begin
+      $dumpfile ("dump.vcd");
+      $dumpvars (0, dec_tb);
+    end
+endmodule
+
+//Theory
+A 3 x 8 decoder is a digital logic circuit that takes a 3-bit binary input and activates one of the eight output lines based on the binary value of the input. 
+It is commonly used in applications where decoding and demultiplexing of data signals are required. Here's a theory on how a 3 x 8 decoder works:
+
+1. Inputs: A 3 x 8 decoder has three input lines, denoted as A[2], A[1], and A[0]. These input lines carry a binary value (0 or 1) or a digital signal.
+
+2. Output Lines: The decoder has eight output lines, denoted as Y[7], Y[6], Y[5], Y[4], Y[3], Y[2], Y[1], and Y[0]. Each output line corresponds to a specific 
+binary combination of the input lines.
+
+3. Truth Table: The behavior of the 3 x 8 decoder can be defined using a truth table that specifies the output for each possible combination of input lines. The
+truth table has eight rows (2^3 input combinations) and eight columns (one for each output line).
+A[2] | A[1] | A[0] | Y[7] | Y[6] | Y[5] | Y[4] | Y[3] | Y[2] | Y[1] | Y[0]
+0 | 0 | 0 | - | - | - | - | - | - | - | -
+... (all possible combinations)
+
+4. Logic Circuit: The 3 x 8 decoder can be implemented using logic gates such as AND gates, OR gates, and NOT gates. The specific implementation depends on the
+desired behavior of the decoder.
+(i) Basic Implementation: The basic implementation of a 3 x 8 decoder involves using a combination of logic gates to activate the appropriate output line based on 
+the input combination. The logic gates perform the necessary decoding to enable the selected output line and disable the rest.
+
+5. Output: The output of the 3 x 8 decoder is the selected output line corresponding to the binary combination of the input lines. Only one output line is 
+activated at a time, based on the input combination.
+
+6. Applications: The 3 x 8 decoder is commonly used in various applications that require decoding and demultiplexing of data signals. It is used to decode address
+lines in memory systems, select specific devices or circuits based on control inputs, and distribute signals to multiple output lines based on input conditions.
+
+By decoding the input lines and activating the appropriate output line, a 3 x 8 decoder provides a means to demultiplex and distribute data signals based on the
+binary value of the input. It is a fundamental component in digital systems and plays a crucial role in various aspects of digital design and data manipulation.
