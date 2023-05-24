@@ -1,0 +1,46 @@
+//Design
+module ternary(
+  input A,
+  input B,
+  output C
+);
+  assign C = A>B?1:0;
+endmodule
+
+//Testbench
+module ternary_tb;
+  reg A, B;
+  wire C;
+  ternary uut (.A(A), .B(B), .C(C));
+  initial
+    begin
+      A = 0; B = 0; #10;
+      A = 0; B = 1; #10;
+      A = 1; B = 0; #10;
+      A = 1; B = 1; #10;
+    end
+  initial
+    begin
+      $dumpfile ("dump.vcd");
+      $dumpvars (0, ternary_tb);
+    end
+endmodule
+
+//Theory
+The ternary operator, also known as the conditional operator, is a compact conditional statement found in many programming languages. It provides a concise way to
+express conditional logic and select a value based on a condition. Here's a theory on how the ternary operator works:
+
+1. Syntax: The ternary operator typically has the following syntax:
+condition ? value_if_true : value_if_false
+The "condition" is an expression that evaluates to either true or false. If the condition is true, the value before the colon (:) is chosen. Otherwise, the value
+after the colon is chosen.
+
+2. Evaluation: When the ternary operator is encountered in the code, the condition is evaluated first. If the condition is true, the expression returns the 
+value_if_true. If the condition is false, the expression returns the value_if_false.
+
+3. Single Expression: The ternary operator is designed to be used within a single expression, allowing for compact and inline conditional statements. It can be
+used to assign a value to a variable, return a value from a function, or as part of a larger expression.
+
+4. Readability and Usage: While the ternary operator provides a compact way to express conditionals, it can sometimes lead to less readable code if used excessively
+or with complex conditions. It is generally recommended to use it judiciously and consider readability and maintainability when deciding whether to use the ternary
+operator or a traditional if-else statement.
