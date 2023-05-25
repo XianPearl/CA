@@ -1,0 +1,68 @@
+//Design
+module graytobinary(g,b);
+input [3:0] g;
+output reg [3:0] b;
+  always @(g) begin
+    case(g)
+    0:b=4'b0000;
+    1:b=4'b0001;
+    2:b=4'b0011;
+    3:b=4'b0010;
+    4:b=4'b0111;
+    5:b=4'b0110;
+    6:b=4'b0100;
+    7:b=4'b0101;
+    8:b=4'b1111;
+    9:b=4'b1110;
+    default:$display("ERROR");
+    endcase
+  end
+endmodule
+
+//Testbench
+module test;
+  reg[3:0] b;
+  reg[3:0] g;
+  graytobinary DUT1(.g(g), .b(b));
+  initial begin
+  $dumpfile("dump.vcd");
+  $dumpvars(1);
+  g=4'b0000;
+  #5;
+  g=4'b0001;
+  #5;
+  g=4'b0010;
+  #5;
+  g=4'b0011;
+  #5;
+  g=4'b1001;
+  #5;
+  end
+endmodule
+
+//Theory
+A Gray-to-Binary converter is a combinational circuit that takes a Gray code as input and converts it into its equivalent binary representation. Gray code, also 
+known as reflected binary code, is a binary encoding scheme in which successive codes differ by only one bit.
+
+Here's the theory behind a Gray-to-Binary converter:
+
+1. Inputs: The Gray-to-Binary converter takes a Gray code as input. The size of the input depends on the number of bits in the Gray code representation.
+
+2. Conversion Process: The conversion process involves transforming the Gray code into its equivalent binary representation.
+a.> Start by copying the most significant bit (MSB) of the Gray code as the MSB of the binary representation.
+b.> Process the remaining bits from left to right (from MSB to LSB) and calculate each bit of the binary representation based on the corresponding Gray code bit 
+and the previous bit of the binary representation.
+(i) If the current Gray code bit is 0, the binary bit remains the same as the previous bit.
+(ii) If the current Gray code bit is 1, the binary bit is complemented (flipped) compared to the previous bit.
+c.> Repeat step b for all bits, going from left to right, until the least significant bit (LSB) of the Gray code is reached.
+
+3.Outputs: The Gray-to-Binary converter generates output lines representing the binary representation of the input Gray code. Each output line corresponds to a bit
+in the binary representation. For example, in a 3-bit Gray-to-Binary converter, the output would consist of three lines representing the three bits of the binary
+code.
+
+4. Cascading: For larger Gray codes, multiple Gray-to-Binary converters can be cascaded together. The output of one converter serves as input to the next 
+higher-order converter. This cascading technique allows for converting Gray codes of larger sizes into their binary representations.
+
+The Gray-to-Binary converter is commonly used in applications where Gray code is used as an intermediate representation, such as in rotary encoders, 
+analog-to-digital converters, and error detection and correction systems. It provides a means to convert Gray code back into binary representation for further 
+processing or interpretation.
