@@ -1,0 +1,56 @@
+//Design
+module bin_excess3(a,y);
+  input [3:0]a;
+  output reg [4:0]y;
+  always@(a) begin
+  	y=a+3;
+  end
+endmodule
+
+//Testbench
+module test;
+  reg [3:0]a;
+  wire [4:0]y;
+  bin_excess3 DUT(.a(a),.y(y));
+  initial begin
+    $dumpfile("dump.vcd");
+    $dumpvars(1);
+    a=4'b0000;
+    #5;
+    a=4'b0001;
+    #5;
+    a=4'b0010;
+    #5;
+    a=4'b0011;
+    #5;
+    a=4'b0100;
+    #5;
+  end 
+endmodule
+
+//Theory
+A Binary-to-Excess-3 code converter is a combinational circuit that takes a binary number as input and converts it into its equivalent Excess-3 code representation. Excess-3 code, also known as XS-3 or Stibitz code, is a non-weighted self-complementing code where each decimal digit is represented by adding 3 to the corresponding binary value.
+
+Here's the theory behind a Binary-to-Excess-3 code converter:
+
+1. Inputs: The Binary-to-Excess-3 code converter takes a binary number as input. The size of the input depends on the maximum value that the converter needs to 
+handle. For example, if the converter needs to handle binary numbers up to 7 (111 in binary), then the input would typically be a 3-bit binary number.
+
+2. Conversion Process: The conversion process involves transforming the binary number into its Excess-3 code representation.
+a.> Add 0011 (3 in binary) to the input binary number.
+b.> Perform binary addition, starting from the least significant bit (LSB) and moving towards the most significant bit (MSB).
+(i) If the sum of the current bit and the corresponding bit of 0011 is 0 or 1, the result bit remains the same.
+(ii) If the sum is 2, the result bit is 0.
+(iii) If the sum is 3, the result bit is 1.
+c. Repeat step b for all bits, going from LSB to MSB.
+
+3. Outputs: The Binary-to-Excess-3 code converter generates output lines representing the Excess-3 code representation of the input binary number. Each output line
+corresponds to a bit in the Excess-3 code. For example, in a 3-bit Binary-to-Excess-3 code converter, the output would consist of three lines representing the 
+three bits of the Excess-3 code.
+
+4. Cascading: For larger binary numbers, multiple Binary-to-Excess-3 code converters can be cascaded together. The output of one converter serves as input to the
+next higher-order converter. This cascading technique allows for converting binary numbers of larger sizes into their Excess-3 code representations.
+
+The Binary-to-Excess-3 code converter is commonly used in applications where Excess-3 code is required for decimal representation, such as in digital displays, 
+decimal arithmetic operations, and data encoding. Excess-3 code allows for representing decimal numbers in a self-complementing manner, simplifying arithmetic 
+operations and reducing the possibility of errors during calculations.
