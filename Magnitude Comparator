@@ -1,0 +1,70 @@
+//Design
+module mag(a,b,greater,lower,equal);
+  input[3:0]a,b;
+  output reg greater,lower,equal;
+  always@(a or b) begin
+    if(a<b)begin
+      greater=0;
+      lower=1;
+      equal=0;
+    end
+    else if(a>b)begin
+      greater=1;
+      lower=0;
+      equal=0;
+    end
+    else if(a==b)begin
+      greater=0;
+      lower=0;
+      equal=1;
+    end
+  end
+endmodule
+
+//Testbench
+module test;
+  reg[3:0]a,b;
+  reg greater,lower,equal;
+  mag DUT1(.a(a),.b(b),.greater(greater),.lower(lower),.equal(equal));
+  initial begin
+    $dumpfile("dump.vcd");
+    $dumpvars(1);
+    a=4'b0000;
+    b=4'b0000;
+    #10;
+    a=4'b1000;
+    b=4'b1100;
+    #10;
+    a=4'b1110;
+    b=4'b1000;
+    #10;
+  end
+endmodule
+
+//Theory
+A magnitude comparator is a combinational circuit that compares the relative magnitudes of two binary numbers and generates outputs indicating the relationship
+between them, such as equality, greater than, or less than. It determines which binary number is larger or if they are equal.
+
+Here's the theory behind a magnitude comparator:
+
+1. Inputs: A magnitude comparator takes two binary numbers as inputs, typically represented as n-bit values, where n is the number of bits in each input. Let's
+call the inputs A and B, with their individual bits denoted as A[n-1:0] and B[n-1:0], respectively.
+
+2. Comparison: The magnitude comparator compares the bits of A and B from the most significant bit (MSB) to the least significant bit (LSB). It starts by comparing
+the MSBs, A[n-1] and B[n-1]. If they are equal, it moves to the next bit and compares A[n-2] and B[n-2]. This process continues until all bits have been compared.
+
+3. Output: The magnitude comparator generates output signals based on the comparison results. The typical outputs are three bits: A>B, A=B, and A<B. These output
+bits indicate the relationship between the two input numbers.
+(i) A>B: This output bit is set to 1 if the magnitude of A is greater than B. Otherwise, it is set to 0.
+(ii) A=B: This output bit is set to 1 if A is equal to B. Otherwise, it is set to 0.
+(iii) A<B: This output bit is set to 1 if the magnitude of A is less than B. Otherwise, it is set to 0.
+
+4. Cascading: To compare binary numbers with more than n bits, multiple magnitude comparators can be cascaded together. The output of the most significant magnitude
+comparator serves as input to the next lower-order magnitude comparator. This cascading technique allows for comparing larger binary numbers.
+
+5. Bitwise Comparison: The comparison of individual bits in the magnitude comparator is typically done using simple logic gates such as AND, OR, and XOR. These 
+gates implement the necessary logic to compare the corresponding bits of A and B.
+
+6. Magnitude comparators are widely used in digital systems for various applications, including sorting, arithmetic operations, and control unit design. They 
+provide a fundamental building block for comparing the magnitudes of binary numbers and determining their relationship in terms of greater than, equal to, or less
+than.
