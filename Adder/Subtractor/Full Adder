@@ -1,0 +1,111 @@
+//Design
+module fulladder(input a,input b,input cin,output s,output cout);
+  assign s=a^b^cin;
+  assign cout=a&b||b&cin||b&cin;
+endmodule
+
+module addersub(input [3:0]m,input [3:0]n,input pin,output [3:0]r,output pout);
+  
+  wire p1,p2,p3;
+  fulladder f1(m[0],n[0]^pin,pin,r[0],p1);
+  fulladder f2(m[01],n[1]^pin,p1,r[1],p2);
+  fulladder f3(m[2],n[2]^pin,p2,r[2],p3);
+  fulladder f4(m[3],n[3]^pin,p3,r[3],pout);
+endmodule
+
+//Testbench
+module tb;
+  
+  reg a,b,cin;
+  wire s,cout;
+  
+ 
+  fulladder t(a,b,cin,s,cout);
+  
+  
+  reg [3:0]m;
+  reg [3:0]n;
+  reg pin;
+  wire [3:0]r;
+  wire pout;
+  
+ 
+  addersub v(m,n,pin,r,pout);
+  initial begin
+    $dumpfile("dump.vcd");
+    $dumpvars(0,tb);
+  end
+  initial begin
+    
+    
+    a=0;b=1;cin=0;#10;
+    a=1;b=0;cin=1;#10;
+    a=1;b=1;cin=0;#10;
+    a=0;b=1;cin=1;#10;
+    
+    
+    m=4'b1001;n=4'b1100;pin=0;#10;
+    m=4'b1000;n=4'b0011;pin=1;#10;
+    m=4'b1001;n=4'b1000;pin=0;#10;
+    m=4'b1001;n=4'b1001;pin=1;#10;
+  end
+endmodule
+
+//Theory
+<1> Full adder
+A full adder is a combinational circuit that performs addition of three input bits: A, B, and a carry-in (C-in), and produces a sum bit (S) and a carry-out (C-out)
+. It is an essential building block for performing arithmetic operations in digital systems.
+
+Here's the theory behind a full adder:
+
+1. Inputs: A full adder takes three input bits: A, B, and C-in.
+(i) A and B represent the two bits to be added.
+(ii) C-in represents the carry-in bit from a previous stage or a predetermined value.
+
+2. Sum Bit Calculation: The sum bit (S) is calculated as the XOR operation of the three input bits (A, B, and C-in).
+S = A XOR B XOR C-in
+The XOR operation produces a 1 when an odd number of inputs are 1 and 0 otherwise.
+
+3. Carry-Out Calculation: The carry-out bit (C-out) is calculated as the majority function of the three input bits (A, B, and C-in).
+C-out = (A AND B) OR (C-in AND (A XOR B))
+The majority function produces a 1 when two or more inputs are 1 and 0 otherwise. In this case, it checks if at least two inputs (A, B, or C-in) are 1.
+
+4. Outputs: The full adder generates two output bits: the sum bit (S) and the carry-out bit (C-out).
+(i) S represents the sum of the three input bits (A, B, and C-in).
+(ii) C-out represents the carry-out bit, which indicates if there is a carry from the addition operation.
+
+The full adder circuit can be implemented using logic gates such as AND, OR, and XOR gates. It can also be built using other combinational elements like 
+multiplexers or using transistor-level implementations.
+
+Full adders are commonly used to build adder circuits for arithmetic operations and in multi-bit addition/subtraction operations. Multiple full adders can be
+cascaded together to create n-bit adders for handling larger binary numbers.
+
+<2> 4-bit Adder/Subtractor
+
+A 4-bit adder/subtractor is a combinational circuit that can perform both addition and subtraction operations on two 4-bit binary numbers. It takes two 4-bit 
+inputs (A and B), a control signal (SUB), and produces a 4-bit sum/difference output (S) and a carry/borrow output (C/B).
+
+Here's the theory behind a 4-bit adder/subtractor:
+
+1. Inputs: The 4-bit adder/subtractor takes two 4-bit inputs, A and B, which represent the binary numbers to be added or subtracted. It also takes a control signal, 
+SUB, which determines the operation to be performed (0 for addition, 1 for subtraction).
+
+2. Subtraction Operation: If the SUB control signal is 1, the circuit performs subtraction. In this case, the two's complement of B is used as the second operand.
+To obtain the two's complement, each bit of B is complemented (flipped) and then 1 is added to the least significant bit.
+
+3. Adder/Subtractor Circuit: The 4-bit adder/subtractor circuit consists of four full adders connected in a cascade, with additional logic for handling subtraction.
+(i) The least significant bits (LSBs) of A and B are fed into the first full adder. The carry/borrow input (C-in) is initially set to 0.
+(ii) For each subsequent bit position, the corresponding bits of A, B, and the previous carry/borrow output are fed into the next full adder.
+(iii) If the SUB control signal is 0 (addition), the carry/borrow input for each full adder is the carry output (C-out) of the previous full adder.
+(iv) If the SUB control signal is 1 (subtraction), the carry/borrow input for each full adder is the inverted carry output (C-out) of the previous full adder.
+(v) The sum/difference bits (S) and the final carry/borrow output (C/B) are obtained from the outputs of the full adders.
+
+4. Outputs: The 4-bit adder/subtractor generates two outputs:
+(i) S represents the 4-bit sum/difference of the inputs A and B, depending on the SUB control signal.
+(ii) C/B represents the carry/borrow output, indicating if there is a carry (for addition) or borrow (for subtraction) from the most significant bit.
+
+The 4-bit adder/subtractor can be implemented using four full adders and additional logic gates to handle the subtraction operation. The carry/borrow output of the
+most significant bit can be used for detecting overflow in signed arithmetic operations.
+
+It is important to note that the subtraction operation in a 4-bit adder/subtractor is performed by adding the two's complement of the second operand, which 
+effectively subtracts it from the first operand.
