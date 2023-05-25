@@ -1,0 +1,67 @@
+//Design
+module binarytobcd(b,bcd);
+input [3:0] b;
+output reg [3:0] bcd;
+  always @(b) begin
+    case(b)
+    0:bcd=5'b00000;
+    1:bcd=5'b00001;
+    2:bcd=5'b00010;
+    3:bcd=5'b00011;
+    4:bcd=5'b00100;
+    5:bcd=5'b00101;
+    6:bcd=5'b00110;
+    7:bcd=5'b00111;
+    8:bcd=5'b01000;
+    9:bcd=5'b01001;
+    10:bcd=5'b10000;
+    default:$display("ERROR");
+    endcase
+  end
+endmodule
+
+//Testbench
+module test;
+  reg[3:0] b;
+  reg[3:0] bcd;
+  binarytobcd DUT1(.b(b),.bcd(bcd));
+  initial begin
+  $dumpfile("dump.vcd");
+  $dumpvars(1);
+  b=4'b0000;
+  #5;
+  b=4'b0001;
+  #5;
+  b=4'b0010;
+  #5;
+  b=4'b0011;
+  #5;
+  b=4'b1001;
+  #5;
+  end
+endmodule
+
+//Theory
+A Binary-to-BCD (Binary Coded Decimal) converter is a combinational circuit that takes a binary number as input and converts it into its equivalent BCD 
+representation. BCD is a binary encoding scheme where each decimal digit is represented by a four-bit binary code.
+
+Here's the theory behind a Binary-to-BCD converter:
+
+1. Inputs: The Binary-to-BCD converter takes a binary number as input. The size of the input depends on the maximum decimal value that the converter needs to 
+handle. For example, if the converter needs to handle decimal numbers up to 99, then the input would typically be an 8-bit binary number.
+
+2. Conversion Process: The conversion process involves separating the binary number into its decimal digits and encoding each digit using BCD.
+(i) Divide the input binary number into groups of four bits, starting from the least significant bits. Each group represents a decimal digit.
+(ii) Convert each four-bit group into its equivalent BCD representation using a truth table or a set of logic gates. BCD uses the binary representation of decimal
+digits, where each decimal digit (0-9) is represented by a four-bit binary code.
+(iii) Combine the BCD representations of the individual decimal digits to obtain the overall BCD representation of the input binary number.
+
+3. Outputs: The Binary-to-BCD converter generates output lines representing the BCD representation of the input binary number. Typically, four output lines are
+used to represent each decimal digit. For example, in an 8-bit Binary-to-BCD converter, the output would consist of four sets of four lines, representing the BCD
+codes of the two decimal digits.
+
+4. Cascading: For larger binary numbers, multiple Binary-to-BCD converters can be cascaded together. The output of one converter serves as input to the next 
+higher-order converter. This cascading technique allows for converting binary numbers of larger sizes into their BCD representations.
+
+The Binary-to-BCD converter is a widely used circuit in applications where decimal representation is required, such as in digital displays, decimal arithmetic 
+operations, and data encoding. It allows for converting binary numbers into their BCD equivalents, making it easier to handle decimal values in digital systems.
