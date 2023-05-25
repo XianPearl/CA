@@ -1,0 +1,55 @@
+//Design
+module halfAdder(
+  input i, 
+  input j,
+  output s,
+  output c
+);
+  assign c = i & j;
+  assign s = i ^ j;
+endmodule
+
+//Testbench
+module tb;
+  
+  reg i, j;
+  wire s, c;  
+  halfAdder uut (.i(i), .j(j), .s(s), .c(c));
+  initial
+    begin
+      i = 0; j = 0; #10;
+      i = 0; j = 1; #10;
+      i = 1; j = 0; #10;
+      i = 1; j = 1; #10;
+    end
+  initial
+    begin
+      $dumpfile("dump.vcd");
+      $dumpvars(0, tb);
+    end
+endmodule
+
+//Theory
+A half adder is a combinational circuit that adds two single-bit binary inputs, A and B, and produces two outputs: a sum bit (S) and a carry bit (C).
+
+Here's the theory behind a half adder:
+
+1. Inputs: The half adder takes two single-bit inputs, A and B, representing the binary digits to be added.
+
+2. Sum Bit Calculation: The sum bit (S) is calculated as the XOR operation of the two input bits (A and B).
+S = A XOR B
+The XOR operation produces a 1 when the two inputs are different (one 0 and one 1) and 0 when they are the same (both 0 or both 1).
+
+3. Carry Bit Calculation: The carry bit (C) is calculated as the AND operation of the two input bits (A and B).
+C = A AND B
+The AND operation produces a 1 only when both inputs are 1; otherwise, it produces a 0.
+
+4. Outputs: The half adder generates two output bits: the sum bit (S) and the carry bit (C).
+(i) S represents the sum of the two input bits (A and B).
+(ii) C represents the carry bit, which indicates if there is a carry from the addition operation.
+
+The half adder circuit can be implemented using logic gates such as AND and XOR gates. It can also be built using other combinational elements like NAND gates or 
+using transistor-level implementations.
+
+The half adder is the basic building block for constructing larger adders, such as full adders and n-bit adders. When cascaded together, multiple half adders can 
+be used to perform addition on multi-bit binary numbers.
