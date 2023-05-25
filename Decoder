@@ -1,38 +1,56 @@
 //Design
-module dec(a, b, c, out);
-  input a, b, c;
-  output [7:0]out;
-  assign out[0] = (~a & ~b & ~c);
-  assign out[1] = (~a & ~b & c);
-  assign out[2] = (~a & b & ~c);
-  assign out[3] = (~a & b & c);
-  assign out[4] = (a & ~b & ~c);
-  assign out[5] = (a & ~b & c);
-  assign out[6] = (a & b & ~c);
-  assign out[7] = (a & b & c);
+module dec(A, en, f);
+	input [2:0] A;
+    input en;
+    output [7:0] f;
+    wire [7:0] f;
+    assign f[0] = en ? ((~A[0])&(~A[1])&(~A[2])) : 0;
+    assign f[1] = en ? ((~A[0])&(~A[1])&(A[2])) : 0;
+    assign f[2] = en ? ((~A[0])&(A[1])&(~A[2])) : 0;
+    assign f[3] = en ? ((~A[0])&(A[1])&(A[2])) : 0;
+    assign f[4] = en ? ((A[0])&(~A[1])&(~A[2])) : 0;
+    assign f[5] = en ? ((A[0])&(~A[1])&(A[2])) : 0;
+    assign f[6] = en ? ((A[0])&(A[1])&(~A[2])) : 0;
+    assign f[7] = en ? ((A[0])&(A[1])&(A[2])) : 0;
 endmodule
 
 //Testbench
-module dec_tb;
-  reg a, b, c;
-  wire [7:0]out;
-  dec DUT (a, b, c, out);
-  initial
-    begin
-      $monitor ($time, "a = %b, b = %b, c = %b, out = %b", a, b, c, out);
-      a = 0; b = 0; c = 0; #100;
-      a = 0; b = 0; c = 1; #100;
-      a = 0; b = 1; c = 0; #100;
-      a = 1; b = 1; c = 1; #100;
-      $finish
-    end
-  initial
-    begin
-      $dumpfile ("dump.vcd");
-      $dumpvars (0, dec_tb);
-    end
+module test;
+	reg [2:0] A;
+    reg en;
+    wire [7:0] f;
+    dec dut1(.A(A), .en(en), .f(f));
+    initial begin
+    $dumpfile("dump.vcd");
+    $dumpvars(1);
+    A = 3'b000;
+    en = 0;
+    #5
+    A = 3'b000;
+    en = 1;
+    #5
+    A = 3'b001;
+    en = 1;
+    #5
+    A = 3'b010;
+    en = 1;
+    #5
+    A = 3'b011;
+    en = 1;
+    #5
+    A = 3'b100;
+    en = 1;
+    #5
+    A = 3'b101;
+    en = 1;
+    #5
+    A = 3'b110;
+    en = 1;
+    #5
+    A = 3'b111;
+    en = 1;
+  end
 endmodule
-
 //Theory
 A 3 x 8 decoder is a digital logic circuit that takes a 3-bit binary input and activates one of the eight output lines based on the binary value of the input. 
 It is commonly used in applications where decoding and demultiplexing of data signals are required. Here's a theory on how a 3 x 8 decoder works:
