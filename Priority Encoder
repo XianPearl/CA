@@ -1,0 +1,60 @@
+//Design
+module prioEnc(
+  input [3:0]i,
+  output [2:0]o
+);
+  assign o[3] = i[0] | i[1] | i[2] | i[3];
+  assign o[1] = i[3] | i[2];
+  assign o[0] = (~i[2] & i[1]) | i[3];
+endmodule
+
+//Testbench
+module prioEnc_tb;
+  reg [3:0]i = 4'b1011;
+  wire [2:0]o;
+  integer j;
+  prioEnc uut (.i(i), .o(o));
+  initial
+    begin
+      for (j = 0; j < 11; j = j + 1) begin
+        i = i + 1;
+        #10;
+      end
+    end
+  initial
+    begin
+      $dumpfile ("dump.vcd");
+      $dumpvars (0, prioEnc_tb);
+    end
+endmodule
+
+//Theory
+A priority encoder is a combinational circuit that encodes multiple input lines into a smaller set of output lines, prioritizing the higher-order inputs. It is 
+used to identify the highest-priority active input and generate a binary code corresponding to its position.
+
+Here's the theory behind priority encoders:
+
+1. Basic Structure: A priority encoder takes n input lines, where n is a power of 2, and produces a binary code of m output lines, where m is the minimum number of
+bits required to represent n. The number of input lines determines the maximum number of input combinations or priority levels that the encoder can handle.
+
+2. Priority Assignment: Each input line of the priority encoder is assigned a unique priority level or position. The highest-priority input has the highest 
+position, and the lowest-priority input has the lowest position. In a 4-input priority encoder, for example, the input lines might be assigned priorities as 
+follows: D0 (lowest priority), D1, D2, and D3 (highest priority).
+
+3. Active Input Detection: The priority encoder detects which input lines are active or "high" and determines the highest-priority active input. It scans the input
+lines from the highest priority to the lowest priority and identifies the first active input encountered. All lower-priority active inputs are ignored.
+
+4. Output Generation: Once the highest-priority active input is determined, the priority encoder generates a binary code on the output lines to represent its
+position. The binary code is typically in the form of a binary number or a binary-encoded value. The output lines corresponding to the position of the active input
+are set to the binary representation of that position, while all other output lines are set to zero.
+
+5. Encoding Scheme: The encoding scheme used in a priority encoder depends on the desired output representation. One common scheme is "one-hot" encoding, where 
+only one output line is active (high) at a time, corresponding to the position of the active input. Another scheme is binary encoding, where the output lines 
+represent the position of the active input in binary form.
+
+6. Cascading: Priority encoders can be cascaded together to handle a larger number of inputs or priority levels. By connecting the output lines of one priority
+encoder to the input lines of another, it is possible to create an encoder with a higher number of inputs. This cascading technique is useful when dealing with
+complex systems with numerous inputs.
+
+7. Priority encoders are commonly used in various applications, such as interrupt handling in microprocessors, data prioritization in communication systems, and 
+control unit design in digital systems. They provide an efficient way to determine and encode the highest-priority active input in a system with multiple inputs.
