@@ -1,0 +1,76 @@
+//Design
+module funcCom(
+  input [2:0]i,
+  output [7:0]o,
+  output y1,
+  output y2,
+  output y3
+);
+  assign o[0] = ~i[0] & ~i[1] & ~i[2];
+  assign o[1] = i[0] & ~i[1] & ~i[2];
+  assign o[2] = ~i[0] & i[1] & ~i[2];
+  assign o[3] = i[0] & i[1] & ~i[2];
+  assign o[4] = ~i[0] & ~i[1] & i[2];
+  assign o[5] = i[0] & ~i[1] & i[2];
+  assign o[6] = ~i[0] & i[1] & i[2];
+  assign o[7] = i[0] & i[1] & i[2];
+  nand (y1, ~o[0], ~o[3]);
+  nand (y2, ~o[2], ~o[4], ~o[7]);
+  nand (y3, ~y1, ~y2);
+endmodule
+
+//Testbench
+module funcCom_tb;
+  reg [2:0]i = 3'b101;
+  wire [7:0]o;
+  wire y1;
+  wire y2;
+  wire y3;
+  integer j;
+  funcCom uut (.i(i), .o(o), .y1(y1), .y2(y2), .y3(y3));
+  initial
+    begin
+      for (j = 0; j < 11; j = j + 1) begin
+        i = i + 1;
+        #10;
+      end
+    end
+  initial
+    begin
+      $dumpfile ("dump.vcd");
+      $dumpvars (0, funcCom_tb);
+    end
+endmodule
+
+//Theory
+A combinational circuit is a digital circuit that produces outputs based solely on the current inputs, without any memory or feedback elements. It consists of 
+logic gates connected in a specific configuration to perform a desired logical or arithmetic operation. Here's a theory on combinational circuits:
+
+1. Logic Gates: The basic building blocks of a combinational circuit are logic gates such as AND, OR, NOT, XOR, etc. These gates perform logical operations on the 
+input signals and generate an output based on their truth tables.
+
+2. Boolean Algebra: Combinational circuit design is often based on Boolean algebra, which provides a mathematical foundation for working with logical operations. 
+Boolean algebra allows us to manipulate logical expressions using operators such as AND, OR, and NOT, and it helps simplify complex circuits.
+
+3. Truth Tables: Truth tables are used to represent the relationship between input and output signals in a combinational circuit. By listing all possible 
+combinations of input values and their corresponding output values, we can determine the logic required to implement a specific function.
+
+4. Circuit Design: Combinational circuits can be designed using various methods, including Karnaugh maps, Boolean algebra manipulation, and logic gate diagrams.
+These design techniques help simplify the circuit and optimize its implementation.
+
+5. Multiplexers and Decoders: Multiplexers and decoders are commonly used in combinational circuit design. Multiplexers select one of many input lines and route it
+to a single output line based on control signals. Decoders, on the other hand, convert binary information from the input lines into output signals based on the 
+input values.
+
+6. Adders and Subtractors: Combinational circuits can be used to implement arithmetic operations such as addition and subtraction. Adders combine binary numbers by
+performing a series of XOR and AND operations, while subtractors use additional logic to perform binary subtraction.
+
+7. Encoder and Decoder: Encoders are used to convert a set of input signals into a coded output, where only one input line is active at a time. Decoders, on the 
+other hand, perform the reverse operation by converting coded inputs into a set of output signals.
+
+8.Cascading and Timing: Combinational circuits can be cascaded together to form more complex circuits. The output of one combinational circuit can be connected to
+the input of another, allowing for the implementation of more advanced functions. Timing considerations, such as propagation delays and setup times, are important
+when designing combinational circuits to ensure proper operation.
+
+Overall, combinational circuits are essential in digital circuit design and play a crucial role in various applications, including arithmetic operations, data 
+encoding, multiplexing, and decoding.
